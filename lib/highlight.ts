@@ -1,0 +1,11 @@
+import { codeToHtml } from "shiki";
+
+export async function highlight(
+  code: string,
+  lang: string = "json"
+): Promise<string> {
+  return codeToHtml(code, {
+    lang,
+    theme: "github-dark-default",
+  });
+}

@@ -1,0 +1,28 @@
+{
+  "name": "transitkit-api",
+  "version": "1.0.0",
+  "description": "TransitKit API — clean proxy for TfNSW Trip Planner",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch & node --watch dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.0",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.2",
+    "typescript": "^6.0.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
