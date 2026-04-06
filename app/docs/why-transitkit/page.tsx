@@ -4,6 +4,24 @@ export const metadata: Metadata = {
   title: "Why TransitKit?",
 };
 
+const limitations = [
+  {
+    title: "Real-time predictions are snapshots, not live streams",
+    description:
+      "TfNSW serves a frozen GTFS-RT prediction for each departure. The realtime_at value does not update between calls \u2014 minutes_away counts down against the original snapshot. This is an upstream constraint no wrapper can solve. TransitKit surfaces this honestly via is_live so you always know what you're working with.",
+  },
+  {
+    title: "Stop search is name-matching only",
+    description:
+      'Searching by street address (e.g. "42 King St Newtown") will not find nearby stops. The TfNSW stop finder matches against canonical stop names, not geocoded locations. Use /v1/nearby with lat/lng coordinates for address-based lookups.',
+  },
+  {
+    title: "NightRide real-time coverage is sparse",
+    description:
+      "Night bus routes (N10, N30, N40 etc.) have significantly lower real-time tracking coverage than daytime services. During testing, N10 had zero real-time data across all departures. is_live: false accurately reflects this \u2014 TransitKit never fabricates real-time data.",
+  },
+];
+
 const issues = [
   {
     title: "The API cannot be called from a browser",
@@ -79,6 +97,31 @@ export default function WhyTransitKitPage() {
                 </p>
               </div>
             </div>
+          </div>
+        ))}
+      </div>
+
+      <hr className="my-10 border-border" />
+
+      <h2 className="text-2xl font-bold tracking-tight">
+        Known TfNSW Limitations
+      </h2>
+      <p className="mt-4 text-base text-text-secondary leading-relaxed">
+        We believe in documenting what doesn&apos;t work as clearly as what
+        does. These are upstream TfNSW constraints that TransitKit surfaces
+        transparently.
+      </p>
+
+      <div className="mt-8 space-y-8">
+        {limitations.map((item, i) => (
+          <div
+            key={i}
+            className="rounded-lg border border-border bg-surface p-6"
+          >
+            <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-text-secondary">
+              {item.description}
+            </p>
           </div>
         ))}
       </div>

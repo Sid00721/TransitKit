@@ -87,13 +87,13 @@ const params = [
     name: "date",
     type: "string",
     required: false,
-    description: "Future date in YYYYMMDD format e.g. 20260410. Defaults to today.",
+    description: "Future date in YYYYMMDD format e.g. 20260410. Interpreted as Sydney local time (AEST/AEDT). Defaults to today.",
   },
   {
     name: "time",
     type: "string",
     required: false,
-    description: "Time in HHmm 24-hour UTC format e.g. 2200 for 10pm UTC. Defaults to now.",
+    description: "Time in HHmm 24-hour format e.g. 2200 for 10pm Sydney time. Interpreted as Sydney local time (AEST/AEDT). Defaults to now.",
   },
 ];
 
@@ -121,6 +121,18 @@ export default async function DeparturesPage() {
       <h2 className="text-xl font-semibold">Parameters</h2>
       <div className="mt-4">
         <ParamTable params={params} />
+      </div>
+
+      <div className="mt-6 rounded-lg border border-yellow-500/30 bg-yellow-500/5 p-4">
+        <p className="text-sm font-semibold text-yellow-400">Timezone note</p>
+        <p className="mt-1 text-sm leading-relaxed text-text-secondary">
+          The <code className="text-white">date</code> and <code className="text-white">time</code> parameters
+          are interpreted as <strong className="text-white">Sydney local time (AEST/AEDT)</strong>, because that
+          is how the underlying TfNSW API processes them. However, all timestamps in the response
+          (<code className="text-white">scheduled_at</code>, <code className="text-white">realtime_at</code>,
+          <code className="text-white">retrieved_at</code>) are returned in <strong className="text-white">UTC</strong>.
+          For example, passing <code className="text-white">time=0800</code> means 8:00 AM Sydney time, not 8:00 AM UTC.
+        </p>
       </div>
 
       <h2 className="mt-10 text-xl font-semibold">Examples</h2>

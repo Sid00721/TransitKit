@@ -111,9 +111,9 @@ const features = [
   },
   {
     title: "Future departures",
-    subtitle: "Built-in timezone handling",
+    subtitle: "Query any date and time",
     description:
-      "Pass date and time to get departures at any future point. TransitKit handles the Sydney timezone conversion so you don't have to.",
+      "Pass date and time params in Sydney local time (AEST/AEDT) to get departures at any future point. Response timestamps are returned in UTC.",
   },
   {
     title: "Clean disruption alerts",
