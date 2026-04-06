@@ -4,6 +4,7 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import { auth } from "./middleware/auth";
+import { rateLimit } from "./middleware/rateLimit";
 import { initDb } from "./lib/db";
 import { departuresHandler } from "./routes/departures";
 import { nearbyHandler } from "./routes/nearby";
@@ -16,6 +17,7 @@ const PORT = parseInt(process.env.PORT || "3001", 10);
 
 app.use(cors());
 app.use(express.json());
+app.use(rateLimit);
 
 // Health check (no auth)
 app.get("/", (_req, res) => {

@@ -11,6 +11,11 @@ const limitations = [
       "TfNSW serves a frozen GTFS-RT prediction for each departure. The realtime_at value does not update between calls \u2014 minutes_away counts down against the original snapshot. This is an upstream constraint no wrapper can solve. TransitKit surfaces this honestly via is_live so you always know what you're working with.",
   },
   {
+    title: "Real-time coverage varies by operator and route",
+    description:
+      "Private bus operators (Transit Systems, Transdev) have 25\u201360% real-time coverage. Some routes like 20T4 and 339 are 100% tracked. Government heavy rail (Sydney Trains) has 0% real-time in TfNSW departure data \u2014 but TransitKit filters those out entirely. For bus departure boards, is_live: true is meaningful and reliable on well-tracked routes.",
+  },
+  {
     title: "Stop search is name-matching only",
     description:
       'Searching by street address (e.g. "42 King St Newtown") will not find nearby stops. The TfNSW stop finder matches against canonical stop names, not geocoded locations. Use /v1/nearby with lat/lng coordinates for address-based lookups.',

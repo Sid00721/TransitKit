@@ -19,6 +19,7 @@ const nav = [
       { label: "Departures", href: "/docs/endpoints/departures" },
       { label: "Nearby Stops", href: "/docs/endpoints/nearby" },
       { label: "Stop Search", href: "/docs/endpoints/stops" },
+      { label: "Transit Score", href: "/docs/endpoints/score" },
     ],
   },
   {

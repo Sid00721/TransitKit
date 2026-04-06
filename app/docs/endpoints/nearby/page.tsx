@@ -133,6 +133,12 @@ export default async function NearbyPage() {
         <code className="rounded bg-code-bg px-1.5 py-0.5 font-mono text-xs">lat, lng</code> order
         everywhere.
       </div>
+
+      <div className="mt-4 rounded-lg border border-border bg-surface p-4 text-sm text-text-secondary leading-relaxed">
+        <strong className="text-white">Coverage note:</strong> TfNSW data includes ACT bus stops,
+        so TransitKit works for Canberra-based applications too. Stops in the ACT will appear
+        in nearby results when querying Canberra coordinates.
+      </div>
     </article>
   );
 }

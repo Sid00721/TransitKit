@@ -21,7 +21,9 @@ export default async function ErrorsPage() {
     { status: "401", code: "UNAUTHORIZED", description: "Missing or invalid API key" },
     { status: "400", code: "INVALID_STOP", description: "Stop ID not found in TfNSW system" },
     { status: "400", code: "MISSING_PARAM", description: "Required parameter not provided" },
-    { status: "429", code: "RATE_LIMITED", description: "Daily request limit exceeded" },
+    { status: "400", code: "TIMETABLE_NOT_AVAILABLE", description: "Timetable data not yet published for the requested date" },
+    { status: "400", code: "INVALID_COORDINATES", description: "Latitude or longitude is outside valid range" },
+    { status: "429", code: "RATE_LIMITED", description: "Too many requests — slow down and retry after the indicated delay" },
     { status: "503", code: "UPSTREAM_ERROR", description: "TfNSW API unavailable" },
   ];
 

@@ -127,6 +127,12 @@ const features = [
     description:
       "Get started with 1,000 requests per day free. No credit card required. Upgrade when you need more.",
   },
+  {
+    title: "Built for production load",
+    subtitle: "Rate limiting and request management",
+    description:
+      "The raw TfNSW API aggressively rate limits — returning HTTP 429 on 19 out of 20 concurrent requests in testing. TransitKit manages request flow with built-in rate limiting so your app stays responsive under traffic spikes.",
+  },
 ];
 
 const useCases = [

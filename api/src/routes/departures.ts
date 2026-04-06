@@ -59,6 +59,20 @@ export async function departuresHandler(req: Request, res: Response): Promise<vo
       return;
     }
 
+    // If stop is valid but no departures and a date was explicitly provided,
+    // the timetable likely isn't published yet for that far-future date
+    if (result.stop_id && result.departures.length === 0 && date) {
+      res.status(400).json({
+        error: {
+          code: "TIMETABLE_NOT_AVAILABLE",
+          message:
+            "Timetable data is not yet published for this date. TfNSW typically publishes schedules 3-4 weeks in advance.",
+          docs: "https://transitkit.dev/docs/errors#TIMETABLE_NOT_AVAILABLE",
+        },
+      });
+      return;
+    }
+
     res.json(result);
   } catch (err) {
     if (err instanceof TfNSWLogicError) {

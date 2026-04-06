@@ -31,6 +31,18 @@ export async function scoreHandler(req: Request, res: Response): Promise<void> {
     return;
   }
 
+  if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+    res.status(400).json({
+      error: {
+        code: "INVALID_COORDINATES",
+        message:
+          "Latitude must be between -90 and 90, longitude between -180 and 180.",
+        docs: "https://transitkit.dev/docs/errors#INVALID_COORDINATES",
+      },
+    });
+    return;
+  }
+
   try {
     const raw = await fetchNearby({ lat, lng, radius: 1000 });
     const result = computeScore(raw, lat, lng);
