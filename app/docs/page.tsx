@@ -64,8 +64,8 @@ export default async function DocsHome() {
       <h2 className="text-xl font-semibold" id="step-1">Step 1 — Get an API Key</h2>
       <p className="mt-3 text-text-secondary leading-relaxed">
         Register at{" "}
-        <a href="https://tally.so" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-          transitkit.dev/signup
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeJd8FMTsiUnJlXVtfpTexlP_GKjh0nNGgKJfmrsPJ-qXoX1A/viewform" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+          the signup form
         </a>
         . Your key will be emailed instantly. It looks like:{" "}
         <code className="rounded bg-code-bg px-2 py-1 font-mono text-sm text-accent">

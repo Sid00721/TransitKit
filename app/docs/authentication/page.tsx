@@ -53,8 +53,8 @@ export default async function AuthenticationPage() {
       <h2 className="text-xl font-semibold">Getting a Key</h2>
       <p className="mt-3 text-text-secondary leading-relaxed">
         Register at{" "}
-        <a href="https://tally.so" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-          transitkit.dev/signup
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeJd8FMTsiUnJlXVtfpTexlP_GKjh0nNGgKJfmrsPJ-qXoX1A/viewform" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+          the signup form
         </a>{" "}
         to get a free API key. Keys are prefixed with{" "}
         <code className="rounded bg-code-bg px-1.5 py-0.5 font-mono text-xs text-accent">tk_live_</code>{" "}

@@ -23,7 +23,7 @@ export function Nav() {
             Pricing
           </Link>
           <a
-            href="https://tally.so"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSeJd8FMTsiUnJlXVtfpTexlP_GKjh0nNGgKJfmrsPJ-qXoX1A/viewform"
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-md bg-accent px-4 py-2 text-sm font-medium text-black hover:bg-accent/90 transition-colors"
@@ -61,7 +61,7 @@ export function Nav() {
               Pricing
             </Link>
             <a
-              href="https://tally.so"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSeJd8FMTsiUnJlXVtfpTexlP_GKjh0nNGgKJfmrsPJ-qXoX1A/viewform"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex w-fit rounded-md bg-accent px-4 py-2 text-sm font-medium text-black hover:bg-accent/90 transition-colors"

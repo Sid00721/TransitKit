@@ -167,7 +167,7 @@ export default async function Home() {
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <a
-              href="https://tally.so"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSeJd8FMTsiUnJlXVtfpTexlP_GKjh0nNGgKJfmrsPJ-qXoX1A/viewform"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-md bg-accent px-6 py-3 text-sm font-medium text-black hover:bg-accent/90 transition-colors"
@@ -288,7 +288,7 @@ export default async function Home() {
         </p>
         <div className="mt-8 flex justify-center gap-4">
           <a
-            href="https://tally.so"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSeJd8FMTsiUnJlXVtfpTexlP_GKjh0nNGgKJfmrsPJ-qXoX1A/viewform"
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-md bg-accent px-6 py-3 text-sm font-medium text-black hover:bg-accent/90 transition-colors"

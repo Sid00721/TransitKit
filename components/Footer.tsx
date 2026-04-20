@@ -19,7 +19,7 @@ export function Footer() {
               <span className="text-xs font-medium uppercase tracking-wider text-text-secondary">Product</span>
               <Link href="/docs" className="text-sm text-text-secondary hover:text-white transition-colors">Docs</Link>
               <Link href="/pricing" className="text-sm text-text-secondary hover:text-white transition-colors">Pricing</Link>
-              <a href="https://tally.so" target="_blank" rel="noopener noreferrer" className="text-sm text-text-secondary hover:text-white transition-colors">Get API Key</a>
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSeJd8FMTsiUnJlXVtfpTexlP_GKjh0nNGgKJfmrsPJ-qXoX1A/viewform" target="_blank" rel="noopener noreferrer" className="text-sm text-text-secondary hover:text-white transition-colors">Get API Key</a>
             </div>
             <div className="flex flex-col gap-3">
               <span className="text-xs font-medium uppercase tracking-wider text-text-secondary">Resources</span>

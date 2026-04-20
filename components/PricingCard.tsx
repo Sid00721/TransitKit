@@ -30,7 +30,7 @@ export function PricingCard({ name, price, period, features, cta, highlighted }:
         ))}
       </ul>
       <a
-        href="https://tally.so"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSeJd8FMTsiUnJlXVtfpTexlP_GKjh0nNGgKJfmrsPJ-qXoX1A/viewform"
         target="_blank"
         rel="noopener noreferrer"
         className={`mt-8 block rounded-md py-3 text-center text-sm font-medium transition-colors ${
