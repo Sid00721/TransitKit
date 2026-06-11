@@ -2,7 +2,17 @@
 
 The Sydney transit API developers actually want to use.
 
-TransitKit wraps the [Transport for NSW](https://opendata.transport.nsw.gov.au/) Trip Planner API into a clean, modern REST API. Real-time bus departures, nearby stops, and route search — with full CORS support, proper error codes, and clean JSON.
+TransitKit wraps the [Transport for NSW](https://opendata.transport.nsw.gov.au/) Trip Planner API into a clean, modern REST API. Multi-leg trip planning, real-time departures across all modes (trains, metro, buses, light rail, ferries), nearby stops, and stop search — with full CORS support, proper error codes, and clean JSON.
+
+### Endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /v1/trips` | Plan journeys between two stops — legs, platforms, real-time times, route geometry |
+| `GET /v1/departures` | Live departure board for a stop (`modes=all` for every transport mode) |
+| `GET /v1/nearby` | Stops near a lat/lng with coordinates and served modes |
+| `GET /v1/stops/search` | Stop name search with coordinates |
+| `GET /v1/score` | Transit accessibility score for a location |
 
 **Website:** [transitkit.dev](https://transitkit.dev)
 

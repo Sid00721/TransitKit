@@ -3,6 +3,7 @@ const TFNSW_BASE = "https://api.transport.nsw.gov.au/v1/tp";
 const DEPARTURE_MON = `${TFNSW_BASE}/departure_mon`;
 const COORD = `${TFNSW_BASE}/coord`;
 const STOP_FINDER = `${TFNSW_BASE}/stop_finder`;
+const TRIP = `${TFNSW_BASE}/trip`;
 
 interface TfNSWRequestParams {
   stopId: string;
@@ -56,6 +57,71 @@ export async function fetchDepartures(params: TfNSWRequestParams): Promise<any> 
       (m: any) => m.type === "error" || m.type === "warning"
     );
     if (err && (!data.stopEvents || data.stopEvents.length === 0)) {
+      throw new TfNSWLogicError(err.code, err.text);
+    }
+  }
+
+  return data;
+}
+
+// ── Trip planning ────────────────────────────────────────────────
+
+interface TripRequestParams {
+  originId: string;
+  destinationId: string;
+  date?: string; // YYYYMMDD
+  time?: string; // HHmm
+  arriveBy?: boolean;
+}
+
+export async function fetchTrip(params: TripRequestParams): Promise<any> {
+  const apiKey = process.env.TFNSW_API_KEY;
+  if (!apiKey) {
+    throw new Error("TFNSW_API_KEY not configured");
+  }
+
+  const query = new URLSearchParams({
+    outputFormat: "rapidJSON",
+    coordOutputFormat: "EPSG:4326",
+    depArrMacro: params.arriveBy ? "arr" : "dep",
+    type_origin: "any",
+    name_origin: params.originId,
+    type_destination: "any",
+    name_destination: params.destinationId,
+    calcNumberOfTrips: "6",
+    TfNSWTR: "true",
+    version: "10.2.1.42",
+  });
+
+  if (params.date) {
+    query.set("itdDate", params.date);
+  }
+  if (params.time) {
+    query.set("itdTime", params.time);
+  }
+
+  const url = `${TRIP}?${query.toString()}`;
+
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `apikey ${apiKey}`,
+      Accept: "application/json",
+    },
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new UpstreamError(`TfNSW returned ${res.status}: ${text}`);
+  }
+
+  const data: any = await res.json();
+
+  // TfNSW returns 200 for errors — check systemMessages
+  if (data.systemMessages) {
+    const err = data.systemMessages.find(
+      (m: any) => m.type === "error"
+    );
+    if (err && (!data.journeys || data.journeys.length === 0)) {
       throw new TfNSWLogicError(err.code, err.text);
     }
   }

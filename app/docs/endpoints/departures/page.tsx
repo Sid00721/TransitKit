@@ -38,7 +38,9 @@ const responseCode = `{
   "departures": [
     {
       "route": "N10",
+      "mode": "bus",
       "destination": "Town Hall Station",
+      "platform": "Stand B",
       "scheduled_at": "2026-04-03T16:59:00Z",
       "realtime_at": "2026-04-03T17:05:24Z",
       "minutes_away": 6,
@@ -49,7 +51,9 @@ const responseCode = `{
     },
     {
       "route": "422",
+      "mode": "bus",
       "destination": "Strathfield Station",
+      "platform": "Stand B",
       "scheduled_at": "2026-04-03T17:04:00Z",
       "realtime_at": null,
       "minutes_away": 11,
@@ -75,13 +79,20 @@ const params = [
     name: "limit",
     type: "integer",
     required: false,
-    description: "Max bus departures to return. Default: 10, Max: 50. Applied after filtering to buses only.",
+    description: "Max departures to return. Default: 10, Max: 50. Applied after mode filtering.",
+  },
+  {
+    name: "modes",
+    type: "string",
+    required: false,
+    description:
+      'Transport mode filter: "all" or a comma-separated list of train, metro, lightrail, bus, coach, ferry, schoolbus. Default: bus.',
   },
   {
     name: "routes",
     type: "string",
     required: false,
-    description: "Comma-separated route filter e.g. 431,X31,N10",
+    description: "Comma-separated route filter e.g. 431,X31,T1",
   },
   {
     name: "date",
@@ -109,7 +120,10 @@ export default async function DeparturesPage() {
     <article>
       <h1 className="text-3xl font-bold tracking-tight">Departures</h1>
       <p className="mt-4 text-text-secondary leading-relaxed">
-        Get live and scheduled bus departures for a specific stop.
+        Get live and scheduled departures for a specific stop. Returns bus
+        departures by default — pass{" "}
+        <code className="rounded bg-code-bg px-1.5 py-0.5 font-mono text-xs">modes=all</code>{" "}
+        to include trains, metro, light rail, and ferries.
       </p>
 
       <div className="mt-6">
@@ -161,12 +175,22 @@ export default async function DeparturesPage() {
             <tr>
               <td className="px-4 py-3 font-mono text-accent">route</td>
               <td className="px-4 py-3 font-mono text-text-secondary">string</td>
-              <td className="px-4 py-3 text-text-secondary">Route number (e.g. &quot;N10&quot;, &quot;422&quot;)</td>
+              <td className="px-4 py-3 text-text-secondary">Short route name (e.g. &quot;N10&quot;, &quot;422&quot;, &quot;T1&quot;, &quot;L2&quot;)</td>
+            </tr>
+            <tr>
+              <td className="px-4 py-3 font-mono text-accent">mode</td>
+              <td className="px-4 py-3 font-mono text-text-secondary">string</td>
+              <td className="px-4 py-3 text-text-secondary">train, metro, lightrail, bus, coach, ferry, or schoolbus</td>
             </tr>
             <tr>
               <td className="px-4 py-3 font-mono text-accent">destination</td>
               <td className="px-4 py-3 font-mono text-text-secondary">string</td>
               <td className="px-4 py-3 text-text-secondary">Final stop name</td>
+            </tr>
+            <tr>
+              <td className="px-4 py-3 font-mono text-accent">platform</td>
+              <td className="px-4 py-3 font-mono text-text-secondary">string | null</td>
+              <td className="px-4 py-3 text-text-secondary">Departure platform/stand/wharf (e.g. &quot;Platform 18&quot;, &quot;Stand B&quot;), null if unknown</td>
             </tr>
             <tr>
               <td className="px-4 py-3 font-mono text-accent">scheduled_at</td>

@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import { fetchDepartures, UpstreamError, TfNSWLogicError } from "../tfnsw";
-import { transformDepartures } from "../transform";
+import { transformDepartures, parseModesParam, MODE_CLASSES } from "../transform";
 
 export async function departuresHandler(req: Request, res: Response): Promise<void> {
   const stop = req.query.stop as string | undefined;
   const limitStr = req.query.limit as string | undefined;
   const routes = req.query.routes as string | undefined;
+  const modes = req.query.modes as string | undefined;
   const date = req.query.date as string | undefined;
   const time = req.query.time as string | undefined;
 
@@ -43,9 +44,27 @@ export async function departuresHandler(req: Request, res: Response): Promise<vo
     ? routes.split(",").map((r) => r.trim()).filter(Boolean)
     : undefined;
 
+  // Parse modes filter (defaults to bus for backward compatibility)
+  let modeClasses: number[] | "all" = [MODE_CLASSES.bus];
+  if (modes) {
+    const parsed = parseModesParam(modes);
+    if (!parsed) {
+      res.status(400).json({
+        error: {
+          code: "INVALID_PARAM",
+          message:
+            "Parameter 'modes' must be 'all' or a comma-separated list of: train, metro, lightrail, bus, coach, ferry, schoolbus.",
+          docs: "https://transitkit.dev/docs/endpoints/departures",
+        },
+      });
+      return;
+    }
+    modeClasses = parsed;
+  }
+
   try {
     const raw = await fetchDepartures({ stopId: stop, date, time });
-    const result = transformDepartures(raw, limit, routeFilter);
+    const result = transformDepartures(raw, limit, routeFilter, modeClasses);
 
     // If TfNSW returned no stop info AND no departures, it's an invalid stop
     if (!result.stop_id && result.departures.length === 0) {

@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
 import { fetchNearby, UpstreamError } from "../tfnsw";
+import { parseModesParam, MODE_CLASSES, classToMode } from "../transform";
 
 export async function nearbyHandler(req: Request, res: Response): Promise<void> {
   const latStr = req.query.lat as string | undefined;
   const lngStr = req.query.lng as string | undefined;
   const radiusStr = req.query.radius as string | undefined;
   const limitStr = req.query.limit as string | undefined;
+  const modesStr = req.query.modes as string | undefined;
 
   // Validate required params
   if (!latStr || !lngStr) {
@@ -79,9 +81,27 @@ export async function nearbyHandler(req: Request, res: Response): Promise<void> 
     limit = Math.min(parsed, 50);
   }
 
+  // Parse modes filter (defaults to bus for backward compatibility)
+  let modeClasses: number[] | "all" = [MODE_CLASSES.bus];
+  if (modesStr) {
+    const parsed = parseModesParam(modesStr);
+    if (!parsed) {
+      res.status(400).json({
+        error: {
+          code: "INVALID_PARAM",
+          message:
+            "Parameter 'modes' must be 'all' or a comma-separated list of: train, metro, lightrail, bus, coach, ferry, schoolbus.",
+          docs: "https://transitkit.dev/docs/endpoints/nearby",
+        },
+      });
+      return;
+    }
+    modeClasses = parsed;
+  }
+
   try {
     const raw = await fetchNearby({ lat, lng, radius });
-    const result = transformNearby(raw, lat, lng, radius, limit);
+    const result = transformNearby(raw, lat, lng, radius, limit, modeClasses);
     res.json(result);
   } catch (err) {
     if (err instanceof UpstreamError) {
@@ -110,10 +130,20 @@ interface NearbyStop {
   stop_id: string;
   name: string;
   distance_metres: number;
+  lat: number | null;
+  lng: number | null;
+  modes: string[];
   routes: string[];
 }
 
-function transformNearby(raw: any, lat: number, lng: number, radius: number, limit: number) {
+function transformNearby(
+  raw: any,
+  lat: number,
+  lng: number,
+  radius: number,
+  limit: number,
+  modeClasses: number[] | "all"
+) {
   // The stop_finder coord response has one location with assignedStops
   const locations: any[] = raw.locations || [];
   const firstLocation = locations[0];
@@ -127,14 +157,25 @@ function transformNearby(raw: any, lat: number, lng: number, radius: number, lim
     // Filter by radius (TfNSW ignores our radius param, returns up to ~1.3km)
     if (distance > radius) continue;
 
-    // Filter to stops that serve buses (mode 5)
-    const modes: number[] = stop.modes || [];
-    if (!modes.includes(5)) continue;
+    // Filter to stops serving at least one requested mode
+    const stopModes: number[] = stop.modes || [];
+    if (
+      modeClasses !== "all" &&
+      !stopModes.some((m) => modeClasses.includes(m))
+    ) {
+      continue;
+    }
+
+    // coord is [lat, lng] in EPSG:4326
+    const coord: number[] = Array.isArray(stop.coord) ? stop.coord : [];
 
     stops.push({
       stop_id: stop.id || "",
       name: stop.name || "",
       distance_metres: distance,
+      lat: typeof coord[0] === "number" ? coord[0] : null,
+      lng: typeof coord[1] === "number" ? coord[1] : null,
+      modes: stopModes.map(classToMode).filter((m) => m !== "other" && m !== "walk"),
       routes: [], // Routes not available in assignedStops — would need per-stop queries
     });
   }

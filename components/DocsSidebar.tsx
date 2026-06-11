@@ -16,6 +16,7 @@ const nav = [
   {
     title: "Endpoints",
     items: [
+      { label: "Trip Planner", href: "/docs/endpoints/trips" },
       { label: "Departures", href: "/docs/endpoints/departures" },
       { label: "Nearby Stops", href: "/docs/endpoints/nearby" },
       { label: "Stop Search", href: "/docs/endpoints/stops" },

@@ -11,6 +11,7 @@ import { nearbyHandler } from "./routes/nearby";
 import { stopsSearchHandler } from "./routes/stops";
 import { createKeyHandler } from "./routes/keys";
 import { scoreHandler } from "./routes/score";
+import { tripsHandler } from "./routes/trips";
 
 const app = express();
 const PORT = parseInt(process.env.PORT || "3001", 10);
@@ -33,6 +34,7 @@ app.post("/v1/keys", createKeyHandler);
 
 // Authenticated routes
 app.get("/v1/departures", auth, departuresHandler);
+app.get("/v1/trips", auth, tripsHandler);
 app.get("/v1/nearby", auth, nearbyHandler);
 app.get("/v1/stops/search", auth, stopsSearchHandler);
 app.get("/v1/score", auth, scoreHandler);

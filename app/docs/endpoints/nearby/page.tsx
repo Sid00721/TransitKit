@@ -18,13 +18,19 @@ const responseCode = `{
       "stop_id": "200060",
       "name": "Circular Quay, Stand A",
       "distance_metres": 120,
-      "routes": ["431", "X31", "372"]
+      "lat": -33.861711,
+      "lng": 151.210787,
+      "modes": ["bus"],
+      "routes": []
     },
     {
       "stop_id": "200061",
       "name": "Circular Quay, Stand B",
       "distance_metres": 180,
-      "routes": ["380", "343", "392"]
+      "lat": -33.861926,
+      "lng": 151.211193,
+      "modes": ["bus", "ferry"],
+      "routes": []
     }
   ]
 }`;
@@ -54,6 +60,13 @@ const params = [
     required: false,
     description: "Max stops to return. Default: 10",
   },
+  {
+    name: "modes",
+    type: "string",
+    required: false,
+    description:
+      'Transport mode filter: "all" or a comma-separated list of train, metro, lightrail, bus, coach, ferry, schoolbus. Default: bus.',
+  },
 ];
 
 export default async function NearbyPage() {
@@ -66,8 +79,11 @@ export default async function NearbyPage() {
     <article>
       <h1 className="text-3xl font-bold tracking-tight">Nearby Stops</h1>
       <p className="mt-4 text-text-secondary leading-relaxed">
-        Find bus stops near a location. Ghost stops (decommissioned stops that
-        return zero departures) are automatically filtered out.
+        Find stops near a location. Returns bus stops by default — pass{" "}
+        <code className="rounded bg-code-bg px-1.5 py-0.5 font-mono text-xs">modes=all</code>{" "}
+        to include train stations, light rail, and ferry wharves. Ghost stops
+        (decommissioned stops that return zero departures) are automatically
+        filtered out.
       </p>
 
       <div className="mt-6">
@@ -118,9 +134,24 @@ export default async function NearbyPage() {
               <td className="px-4 py-3 text-text-secondary">Distance from queried location in metres</td>
             </tr>
             <tr>
+              <td className="px-4 py-3 font-mono text-accent">lat</td>
+              <td className="px-4 py-3 font-mono text-text-secondary">float | null</td>
+              <td className="px-4 py-3 text-text-secondary">Latitude (EPSG:4326), null if unavailable</td>
+            </tr>
+            <tr>
+              <td className="px-4 py-3 font-mono text-accent">lng</td>
+              <td className="px-4 py-3 font-mono text-text-secondary">float | null</td>
+              <td className="px-4 py-3 text-text-secondary">Longitude (EPSG:4326), null if unavailable</td>
+            </tr>
+            <tr>
+              <td className="px-4 py-3 font-mono text-accent">modes</td>
+              <td className="px-4 py-3 font-mono text-text-secondary">string[]</td>
+              <td className="px-4 py-3 text-text-secondary">Transport modes serving this stop (e.g. [&quot;train&quot;, &quot;bus&quot;])</td>
+            </tr>
+            <tr>
               <td className="px-4 py-3 font-mono text-accent">routes</td>
               <td className="px-4 py-3 font-mono text-text-secondary">string[]</td>
-              <td className="px-4 py-3 text-text-secondary">Bus routes serving this stop</td>
+              <td className="px-4 py-3 text-text-secondary">Reserved — currently always an empty array</td>
             </tr>
           </tbody>
         </table>

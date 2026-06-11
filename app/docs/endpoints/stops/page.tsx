@@ -17,12 +17,16 @@ const responseCode = `{
     {
       "stop_id": "200060",
       "name": "Circular Quay, Stand A",
-      "suburb": "Sydney"
+      "suburb": "Sydney",
+      "lat": -33.861711,
+      "lng": 151.210787
     },
     {
       "stop_id": "200061",
       "name": "Circular Quay, Stand B",
-      "suburb": "Sydney"
+      "suburb": "Sydney",
+      "lat": -33.861926,
+      "lng": 151.211193
     }
   ]
 }`;
@@ -102,6 +106,16 @@ export default async function StopsSearchPage() {
               <td className="px-4 py-3 font-mono text-accent">suburb</td>
               <td className="px-4 py-3 font-mono text-text-secondary">string</td>
               <td className="px-4 py-3 text-text-secondary">Suburb or locality</td>
+            </tr>
+            <tr>
+              <td className="px-4 py-3 font-mono text-accent">lat</td>
+              <td className="px-4 py-3 font-mono text-text-secondary">float | null</td>
+              <td className="px-4 py-3 text-text-secondary">Latitude (EPSG:4326), null if unavailable</td>
+            </tr>
+            <tr>
+              <td className="px-4 py-3 font-mono text-accent">lng</td>
+              <td className="px-4 py-3 font-mono text-text-secondary">float | null</td>
+              <td className="px-4 py-3 text-text-secondary">Longitude (EPSG:4326), null if unavailable</td>
             </tr>
           </tbody>
         </table>

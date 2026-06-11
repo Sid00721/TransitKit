@@ -65,6 +65,8 @@ interface StopSearchResult {
   stop_id: string;
   name: string;
   suburb: string;
+  lat: number | null;
+  lng: number | null;
 }
 
 function transformStopSearch(raw: any, query: string, limit: number) {
@@ -81,10 +83,15 @@ function transformStopSearch(raw: any, query: string, limit: number) {
       loc.parent?.disassembledName ||
       "";
 
+    // coord is [lat, lng] in EPSG:4326
+    const coord: number[] = Array.isArray(loc.coord) ? loc.coord : [];
+
     results.push({
       stop_id: loc.id || "",
       name: loc.name || loc.disassembledName || "",
       suburb,
+      lat: typeof coord[0] === "number" ? coord[0] : null,
+      lng: typeof coord[1] === "number" ? coord[1] : null,
     });
   }
 

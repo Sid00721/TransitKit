@@ -23,6 +23,7 @@ export default async function ErrorsPage() {
     { status: "400", code: "MISSING_PARAM", description: "Required parameter not provided" },
     { status: "400", code: "TIMETABLE_NOT_AVAILABLE", description: "Timetable data not yet published for the requested date" },
     { status: "400", code: "INVALID_COORDINATES", description: "Latitude or longitude is outside valid range" },
+    { status: "404", code: "NO_JOURNEYS_FOUND", description: "Trip planner found no route between the two stops" },
     { status: "429", code: "RATE_LIMITED", description: "Too many requests — slow down and retry after the indicated delay" },
     { status: "503", code: "UPSTREAM_ERROR", description: "TfNSW API unavailable" },
   ];
